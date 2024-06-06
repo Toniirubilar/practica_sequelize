@@ -15,7 +15,7 @@ const sequelize = new Sequelize('testbackend', 'root', 'tonkee2', {
     }
 })();
 
-const clientes = sequelize.define('clientes', {
+const cliente = sequelize.define('cliente', {
     id_cliente: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -61,7 +61,7 @@ app.get('/', (req, res) => {
 app.get('/clientes', async (req, res) => {
     res.status(200).json({
         ok: true,
-        data: await clientes.findAll(),
+        data: await cliente.findAll(),
         msj: "Estos son los clientes"
     })
 });
@@ -69,7 +69,7 @@ app.get('/clientes', async (req, res) => {
 app.get('/clientes/buscar', async (req, res) =>{
     const { query } = req
     const { id } = query
-    const busqueda = await clientes.findByPk(id)
+    const busqueda = await cliente.findByPk(id)
 
      if (busqueda !== null ) res.status(200).json({
         ok: true,
@@ -87,7 +87,7 @@ app.post('/clientes/crear', async (req, res) => {
 
 
     try { 
-        const newcliente = await clientes.create({
+        const newcliente = await cliente.create({
         nombre,
         apellido,
         localidad,

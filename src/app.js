@@ -50,6 +50,7 @@ const cliente = sequelize.define('cliente', {
 const express = require('express');
 const app = express();
 const port = 8080;
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -97,10 +98,17 @@ app.post('/clientes/crear', async (req, res) => {
         res.status(201).json(newcliente)
     } catch (error) {
         console.log("Error al crear al cliente", error);
+
     }
 });
 
+app.put('/clientes/update', async (req, res) => {
 
+})
+
+app.delete('/clientes/eliminar', async (req,res) => {
+
+})
 
 app.listen(port, () => {
     console.log(`servidor conectado en el ${port}`)

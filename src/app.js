@@ -1,9 +1,9 @@
 
-const { Sequelize, DataTypes, where } = require('sequelize');
+const { Sequelize, DataTypes, } = require('sequelize');
 
 const sequelize = new Sequelize('testbackend', 'root', 'tonkee2', {
     host: 'localhost',
-    dialect: 'mysql'
+    dialect: 'mariadb'
 });
 
 (async () => {

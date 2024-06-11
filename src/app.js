@@ -1,4 +1,3 @@
-
 const { Sequelize, DataTypes, } = require('sequelize');
 
 const sequelize = new Sequelize('testbackend', 'root', 'tonkee2', {
@@ -97,18 +96,55 @@ app.post('/clientes/crear', async (req, res) => {
         });
         res.status(201).json(newcliente)
     } catch (error) {
-        console.log("Error al crear al cliente", error);
-
+        console.log(error);
+        res.status(500).json({error: "Error al crear el cliente"});
     }
 });
 
 app.put('/clientes/update', async (req, res) => {
+    const { query } = req;
+    const { id } = query;
+    const { nombre, apellido, localidad, direccion, celular } =req.body;
 
-})
+    try {
+        const actualizarcliente = await cliente.findByPk(id);
+        if (!actualizarcliente) {
+            return res.status(404).json({error: "Cliente no encontrado"});
+        }
+
+        actualizarcliente.nombre = nombre;
+        actualizarcliente.apellido = apellido;
+        actualizarcliente.localidad = localidad;
+        actualizarcliente.direccion = direccion;
+        actualizarcliente.celular = celular;
+
+    await actualizarcliente.save();
+
+    res.status(200).json(actualizarcliente)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Error al actualizar el cliente"});
+    }
+});
 
 app.delete('/clientes/eliminar', async (req,res) => {
+    const { query } = req;
+    const { id } = query;
 
-})
+    try {
+        const deleteclient = await cliente.findByPk(id);
+
+        if (!deleteclient) {
+            res.status(404).json({ error: "Cliente no encontrado" });
+        }
+
+        await deleteclient.destroy();
+        res.status(200).json({ msj: "Cliente eliminado correctamente" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al eliminar el alumno"});
+    }
+});
 
 app.listen(port, () => {
     console.log(`servidor conectado en el ${port}`)
